@@ -10,7 +10,6 @@
 # when you press ENTER. It simulates typing and runs commands.
 #
 ###############################################################################
-
 # the speed to simulate typing the text
 TYPE_SPEED=20
 
@@ -40,11 +39,15 @@ COLOR_RESET="\033[0m"
 C_NUM=0
 
 # prompt and command color which can be overriden
-DEMO_PROMPT="$ "
-DEMO_CMD_COLOR=$BOLD
+DEMO_PROMPT="~/pf-cloud# "
+DEMO_CMD_COLOR=$COLOR_RESET
 DEMO_COMMENT_COLOR=$GREY
+PROMOT_COLOR=$CYAN
+alias kubectl="kubecolor"
 
 ##
+
+
 # prints the script usage
 ##
 function usage() {
@@ -72,6 +75,8 @@ function wait() {
   fi
 }
 
+
+
 ##
 # print command only. Useful for when you want to pretend to run a command
 #
@@ -88,13 +93,13 @@ function p() {
   fi
 
   # render the prompt
-  x=$(PS1="$DEMO_PROMPT" "$BASH" --norc -i </dev/null 2>&1 | sed -n '${s/^\(.*\)exit$/\1/p;}')
+  x=$(PS2="$DEMO_PROMPT" "$BASH" --norc -i </dev/null 2>&1 | sed -n '${s/^\(.*\)exit$/\1/p;}')
 
   # show command number is selected
   if $SHOW_CMD_NUMS; then
    printf "[$((++C_NUM))] $x"
   else
-   printf "$x"
+   printf $PROMOT_COLOR"[~/pf-cloud#]$ $x"
   fi
 
   # wait for the user to press a key before typing the command
